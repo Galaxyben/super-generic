@@ -1,0 +1,175 @@
+.pipeline-page {
+  animation: fadeInUp 400ms ease-out;
+}
+
+.pipeline-page h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: var(--space-xs);
+}
+
+.pipeline-subtitle {
+  color: var(--text-tertiary);
+  font-size: 0.85rem;
+  margin-bottom: var(--space-lg);
+}
+
+.pipeline-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--space-lg);
+}
+
+/* Kanban Board */
+.kanban-board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+  min-height: 400px;
+}
+
+@media (max-width: 1100px) {
+  .kanban-board {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .kanban-board {
+    grid-template-columns: 1fr;
+  }
+}
+
+.kanban-column {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  min-height: 300px;
+  transition: border-color var(--transition-fast);
+}
+
+.kanban-column.drag-over {
+  border-color: var(--accent-blue);
+  background: rgba(59, 130, 246, 0.03);
+}
+
+.kanban-column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.kanban-column-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.kanban-column-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+}
+
+.kanban-column-dot.blue { background: var(--accent-blue); }
+.kanban-column-dot.amber { background: var(--accent-amber); }
+.kanban-column-dot.emerald { background: var(--accent-emerald); }
+.kanban-column-dot.rose { background: var(--accent-rose); }
+
+.kanban-column-count {
+  font-size: 0.7rem;
+  background: var(--bg-tertiary);
+  color: var(--text-tertiary);
+  padding: 0.1rem 0.45rem;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+}
+
+.kanban-column-body {
+  padding: var(--space-sm);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  overflow-y: auto;
+}
+
+/* Deal Card */
+.deal-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  cursor: grab;
+  transition: all var(--transition-fast);
+  user-select: none;
+}
+
+.deal-card:active {
+  cursor: grabbing;
+}
+
+.deal-card:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+
+.deal-card.dragging {
+  opacity: 0.5;
+  transform: rotate(2deg);
+}
+
+.deal-card-title {
+  font-size: 0.825rem;
+  font-weight: 500;
+  margin-bottom: var(--space-xs);
+  color: var(--text-primary);
+}
+
+.deal-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.deal-card-contact {
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.deal-card-value {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent-emerald);
+}
+
+.deal-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 2px;
+  margin-top: var(--space-sm);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.deal-card:hover .deal-card-actions {
+  opacity: 1;
+}
+
+.kanban-empty {
+  text-align: center;
+  padding: var(--space-lg);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
