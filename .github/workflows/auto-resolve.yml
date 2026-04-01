@@ -77,7 +77,7 @@ jobs:
           SYSTEM_PROMPT=$(cat .github/prompts/auto-resolve-system.md)
           TICKET_CONTEXT=$(cat ticket-context.md)
           
-          gemini --model gemini-2.5-pro -p "${SYSTEM_PROMPT}
+          gemini --yolo --model gemini-2.5-pro -p "${SYSTEM_PROMPT}
 
           --- TICKET CONTEXT ---
           ${TICKET_CONTEXT}
