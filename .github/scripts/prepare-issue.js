@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'fs';
 
 function main() {
   const contextRaw = process.env.GITHUB_CONTEXT;
@@ -33,14 +33,14 @@ function main() {
 
   const branchName = `fix/${ticketId.replace(/[^a-zA-Z0-9-]/g, '-').toLowerCase()}`;
 
-  // Output to GitHub Actions context using environment files rather than set-output (deprecated)
+  // Output to GitHub Actions context using environment files
   const envFile = process.env.GITHUB_OUTPUT;
   if (envFile) {
     fs.appendFileSync(envFile, `ticket_id=${ticketId}\n`);
     fs.appendFileSync(envFile, `branch_name=${branchName}\n`);
   } else {
-    console.log(`::set-output name=ticket_id::${ticketId}`);
-    console.log(`::set-output name=branch_name::${branchName}`);
+    console.log(`ticket_id=${ticketId}`);
+    console.log(`branch_name=${branchName}`);
   }
 
   // Create the instruction file for the AI

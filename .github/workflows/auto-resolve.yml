@@ -23,7 +23,6 @@ permissions:
 
 jobs:
   resolve-bug:
-    # Only run if an issue with label 'bug' is opened OR if manually triggered/dispatched
     if: |
       github.event_name == 'workflow_dispatch' ||
       github.event_name == 'repository_dispatch' ||
@@ -68,20 +67,24 @@ jobs:
           git config --global user.email "actions@github.com"
           git checkout -b "${{ steps.prep.outputs.branch_name }}"
 
-      - name: Determine CLI and Install Claude
-        run: |
-          npm install -g @anthropic-ai/claude-code
+      - name: Install Gemini CLI
+        run: npm install -g @google/gemini-cli
 
-      - name: Execute Autonomous Agent
+      - name: Execute Autonomous Agent (Gemini)
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        # Assuming prepare-issue.js creates ticket-context.md in the root
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          claude --compact --print -p "$(cat .github/prompts/auto-resolve-system.md)" -p "$(cat ticket-context.md)" "Please read the system instructions and find, fix, and verify the bug described."
+          SYSTEM_PROMPT=$(cat .github/prompts/auto-resolve-system.md)
+          TICKET_CONTEXT=$(cat ticket-context.md)
+          
+          gemini --model gemini-2.5-pro -p "${SYSTEM_PROMPT}
+
+          --- TICKET CONTEXT ---
+          ${TICKET_CONTEXT}
+          
+          Please read the system instructions and find, fix, and verify the bug described."
           
       - name: Validate Code Formatting and Syntax
-        # We run tests or linting to ensure it didn't break anything. 
-        # For our MVP, we'll try running our custom npm script.
         run: |
           if npm run | grep -q 'test:lint'; then
             npm run test:lint
@@ -97,13 +100,13 @@ jobs:
           
           # Only commit if there are changes
           if ! git diff-index --quiet HEAD; then
-            git commit -m "fix(${{ steps.prep.outputs.ticket_id }}): Autonomous resolution by Claude Agent"
+            git commit -m "fix(${{ steps.prep.outputs.ticket_id }}): Autonomous resolution by Gemini Agent"
             git push --set-upstream origin "${{ steps.prep.outputs.branch_name }}"
             
             # Create Pull Request
             PR_URL=$(gh pr create \
               --title "Fix: Automated Resolution for ${{ steps.prep.outputs.ticket_id }}" \
-              --body "## Auto-Resolved by AI Agent
+              --body "## Auto-Resolved by AI Agent (Gemini)
               
               This PR was generated automatically to address **${{ steps.prep.outputs.ticket_id }}**.
               
