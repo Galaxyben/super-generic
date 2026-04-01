@@ -1,0 +1,123 @@
+name: Auto-Resolve Bug (AI Agent)
+
+on:
+  issues:
+    types: [opened, labeled]
+  repository_dispatch:
+    types: [jira-bug-webhook]
+  workflow_dispatch:
+    inputs:
+      ticket_id:
+        description: 'Ticket ID (e.g. AD-123)'
+        required: true
+        type: string
+      issue_body:
+        description: 'Description of the bug'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  resolve-bug:
+    # Only run if an issue with label 'bug' is opened OR if manually triggered/dispatched
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'repository_dispatch' ||
+      (github.event_name == 'issues' && contains(github.event.issue.labels.*.name, 'bug'))
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Prepare Context and Branch Name
+        id: prep
+        run: node .github/scripts/prepare-issue.js
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+
+      - name: Check for PR Collision
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH_NAME="${{ steps.prep.outputs.branch_name }}"
+          EXISTING_PR=$(gh pr list --head "$BRANCH_NAME" --json url -q '.[].url')
+          if [ ! -z "$EXISTING_PR" ]; then
+            echo "A PR already exists for this ticket: $EXISTING_PR"
+            echo "Aborting due to collision."
+            exit 1
+          fi
+
+      - name: Create working branch
+        run: |
+          git config --global user.name "AI Auto-Resolve Agent"
+          git config --global user.email "actions@github.com"
+          git checkout -b "${{ steps.prep.outputs.branch_name }}"
+
+      - name: Determine CLI and Install Claude
+        run: |
+          npm install -g @anthropic-ai/claude-code
+
+      - name: Execute Autonomous Agent
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        # Assuming prepare-issue.js creates ticket-context.md in the root
+        run: |
+          claude --compact --print -p "$(cat .github/prompts/auto-resolve-system.md)" -p "$(cat ticket-context.md)" "Please read the system instructions and find, fix, and verify the bug described."
+          
+      - name: Validate Code Formatting and Syntax
+        # We run tests or linting to ensure it didn't break anything. 
+        # For our MVP, we'll try running our custom npm script.
+        run: |
+          if npm run | grep -q 'test:lint'; then
+            npm run test:lint
+          else
+            npx eslint .
+          fi
+
+      - name: Commit, Push and Open PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git add .
+          
+          # Only commit if there are changes
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "fix(${{ steps.prep.outputs.ticket_id }}): Autonomous resolution by Claude Agent"
+            git push --set-upstream origin "${{ steps.prep.outputs.branch_name }}"
+            
+            # Create Pull Request
+            PR_URL=$(gh pr create \
+              --title "Fix: Automated Resolution for ${{ steps.prep.outputs.ticket_id }}" \
+              --body "## Auto-Resolved by AI Agent
+              
+              This PR was generated automatically to address **${{ steps.prep.outputs.ticket_id }}**.
+              
+              > Please review changes carefully before merging." \
+              --label "bug" \
+              --label "ai-generated")
+              
+            echo "Successfully created PR: $PR_URL"
+            
+            # Optional: Add comment to original issue
+            if [ "${{ github.event_name }}" == "issues" ]; then
+               gh issue comment "${{ github.event.issue.number }}" --body "An automated fix has been drafted and is ready for review: $PR_URL"
+            fi
+          else
+            echo "The agent successfully ran but found no changes to commit."
+            exit 0
+          fi
