@@ -99,6 +99,10 @@ jobs:
             git commit -m "fix(${{ steps.prep.outputs.ticket_id }}): Autonomous resolution by Gemini Agent"
             git push --set-upstream origin "${{ steps.prep.outputs.branch_name }}"
             
+            # Ensure labels exist
+            gh label create "bug" --color "d73a4a" --description "Something isn't working" --force 2>/dev/null || true
+            gh label create "ai-generated" --color "7057ff" --description "Created by AI Agent" --force 2>/dev/null || true
+            
             # Create Pull Request
             PR_URL=$(gh pr create \
               --title "Fix: Automated Resolution for ${{ steps.prep.outputs.ticket_id }}" \
