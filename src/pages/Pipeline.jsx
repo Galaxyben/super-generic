@@ -52,20 +52,20 @@ export default function Pipeline() {
   };
 
   const handleDelete = (id) => {
-    if (window.confirm('¿Eliminar este negocio?')) {
+    if (window.confirm('Delete this deal?')) {
       deleteDeal(id);
     }
   };
 
   return (
     <div className="pipeline-page">
-      <h1>Pipeline de Ventas</h1>
-      <p className="pipeline-subtitle">Arrastra los negocios entre etapas para actualizar su estado</p>
+      <h1>Sales Pipeline</h1>
+      <p className="pipeline-subtitle">Drag deals between stages to update their status</p>
 
       <div className="pipeline-toolbar">
         <button className="btn btn-primary" onClick={() => setModalOpen(true)}>
           <Plus size={16} />
-          Nuevo Negocio
+          New Deal
         </button>
       </div>
 
@@ -89,7 +89,7 @@ export default function Pipeline() {
               </div>
               <div className="kanban-column-body">
                 {stageDeals.length === 0 && (
-                  <div className="kanban-empty">Sin negocios</div>
+                  <div className="kanban-empty">No deals</div>
                 )}
                 {stageDeals.map((deal) => {
                   const contact = contacts.find((c) => c.id === deal.contactId);
@@ -105,7 +105,7 @@ export default function Pipeline() {
                       <div className="deal-card-meta">
                         <span className="deal-card-contact">
                           <User size={12} />
-                          {contact?.name || 'Sin asignar'}
+                          {contact?.name || 'Unassigned'}
                         </span>
                         <span className="deal-card-value">{formatCurrency(deal.value)}</span>
                       </div>
@@ -125,15 +125,15 @@ export default function Pipeline() {
 
       {/* Create Deal Modal */}
       {modalOpen && (
-        <Modal title="Nuevo Negocio" onClose={() => setModalOpen(false)}>
+        <Modal title="New Deal" onClose={() => setModalOpen(false)}>
           <form onSubmit={handleSubmit}>
             <div className="modal-body">
               <div className="modal-field">
-                <label htmlFor="deal-title">Título</label>
+                <label htmlFor="deal-title">Title</label>
                 <input
                   id="deal-title"
                   type="text"
-                  placeholder="Nombre del negocio"
+                  placeholder="Deal name"
                   value={form.title}
                   onChange={(e) => setForm({ ...form, title: e.target.value })}
                   autoFocus
@@ -141,7 +141,7 @@ export default function Pipeline() {
                 />
               </div>
               <div className="modal-field">
-                <label htmlFor="deal-value">Valor ($)</label>
+                <label htmlFor="deal-value">Value ($)</label>
                 <input
                   id="deal-value"
                   type="number"
@@ -152,7 +152,7 @@ export default function Pipeline() {
                 />
               </div>
               <div className="modal-field">
-                <label htmlFor="deal-stage">Etapa</label>
+                <label htmlFor="deal-stage">Stage</label>
                 <select
                   id="deal-stage"
                   value={form.stage}
@@ -164,13 +164,13 @@ export default function Pipeline() {
                 </select>
               </div>
               <div className="modal-field">
-                <label htmlFor="deal-contact">Contacto</label>
+                <label htmlFor="deal-contact">Contact</label>
                 <select
                   id="deal-contact"
                   value={form.contactId}
                   onChange={(e) => setForm({ ...form, contactId: e.target.value })}
                 >
-                  <option value="">Sin asignar</option>
+                  <option value="">Unassigned</option>
                   {contacts.map((c) => (
                     <option key={c.id} value={c.id}>{c.name}</option>
                   ))}
@@ -179,9 +179,9 @@ export default function Pipeline() {
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" onClick={() => setModalOpen(false)}>
-                Cancelar
+                Cancel
               </button>
-              <button type="submit" className="btn btn-primary">Crear Negocio</button>
+              <button type="submit" className="btn btn-primary">Create Deal</button>
             </div>
           </form>
         </Modal>

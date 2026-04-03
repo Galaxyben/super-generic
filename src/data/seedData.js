@@ -51,7 +51,7 @@ export const seedContacts = [
 export const seedDeals = [
   {
     id: 'd1',
-    title: 'Licencia Enterprise Software',
+    title: 'Enterprise Software License',
     value: 45000,
     stage: 'prospect',
     contactId: 'c1',
@@ -59,7 +59,7 @@ export const seedDeals = [
   },
   {
     id: 'd2',
-    title: 'Consultoría DevOps',
+    title: 'DevOps Consulting',
     value: 18000,
     stage: 'in_negotiation',
     contactId: 'c2',
@@ -67,7 +67,7 @@ export const seedDeals = [
   },
   {
     id: 'd3',
-    title: 'Migración Cloud AWS',
+    title: 'AWS Cloud Migration',
     value: 72000,
     stage: 'in_negotiation',
     contactId: 'c3',
@@ -75,7 +75,7 @@ export const seedDeals = [
   },
   {
     id: 'd4',
-    title: 'App Móvil MVP',
+    title: 'Mobile App MVP',
     value: 25000,
     stage: 'won',
     contactId: 'c4',
@@ -83,7 +83,7 @@ export const seedDeals = [
   },
   {
     id: 'd5',
-    title: 'Rediseño Portal Web',
+    title: 'Web Portal Redesign',
     value: 12000,
     stage: 'lost',
     contactId: 'c5',
@@ -91,7 +91,7 @@ export const seedDeals = [
   },
   {
     id: 'd6',
-    title: 'Soporte Técnico Anual',
+    title: 'Annual Technical Support',
     value: 8500,
     stage: 'prospect',
     contactId: 'c2',
@@ -102,7 +102,7 @@ export const seedDeals = [
 export const seedTasks = [
   {
     id: 't1',
-    title: 'Enviar propuesta comercial a María',
+    title: 'Send business proposal to María',
     completed: false,
     contactId: 'c1',
     dealId: 'd1',
@@ -111,7 +111,7 @@ export const seedTasks = [
   },
   {
     id: 't2',
-    title: 'Llamada de seguimiento con Carlos',
+    title: 'Follow-up call with Carlos',
     completed: false,
     contactId: 'c2',
     dealId: 'd2',
@@ -120,7 +120,7 @@ export const seedTasks = [
   },
   {
     id: 't3',
-    title: 'Preparar demo técnica para GlobalNet',
+    title: 'Prepare technical demo for GlobalNet',
     completed: false,
     contactId: 'c3',
     dealId: 'd3',
@@ -129,7 +129,7 @@ export const seedTasks = [
   },
   {
     id: 't4',
-    title: 'Revisar contrato firmado FutureStack',
+    title: 'Review signed contract FutureStack',
     completed: true,
     contactId: 'c4',
     dealId: 'd4',
@@ -138,7 +138,7 @@ export const seedTasks = [
   },
   {
     id: 't5',
-    title: 'Actualizar CRM con notas de reunión',
+    title: 'Update CRM with meeting notes',
     completed: false,
     contactId: null,
     dealId: null,
@@ -148,8 +148,8 @@ export const seedTasks = [
 ];
 
 export const STAGES = {
-  prospect: { label: 'Prospecto', color: 'blue' },
-  in_negotiation: { label: 'En Negociación', color: 'amber' },
-  won: { label: 'Cerrado - Ganado', color: 'emerald' },
-  lost: { label: 'Cerrado - Perdido', color: 'rose' },
+  prospect: { label: 'Prospect', color: 'blue' },
+  in_negotiation: { label: 'In Negotiation', color: 'amber' },
+  won: { label: 'Closed - Won', color: 'emerald' },
+  lost: { label: 'Closed - Lost', color: 'rose' },
 };

@@ -4,9 +4,9 @@ import './Sidebar.css';
 
 const NAV_ITEMS = [
   { to: '/', icon: LayoutDashboard, label: 'Dashboard' },
-  { to: '/contacts', icon: Users, label: 'Contactos' },
+  { to: '/contacts', icon: Users, label: 'Contacts' },
   { to: '/pipeline', icon: Kanban, label: 'Pipeline' },
-  { to: '/tasks', icon: CheckSquare, label: 'Tareas' },
+  { to: '/tasks', icon: CheckSquare, label: 'Tasks' },
 ];
 
 export default function Sidebar() {
@@ -24,7 +24,7 @@ export default function Sidebar() {
       </div>
 
       <nav className="sidebar-nav">
-        <span className="sidebar-nav-label">Menú Principal</span>
+        <span className="sidebar-nav-label">Main Menu</span>
         {NAV_ITEMS.map(({ to, icon: Icon, label }) => (
           <NavLink
             key={to}
@@ -43,7 +43,7 @@ export default function Sidebar() {
           <div className="sidebar-avatar">AD</div>
           <div>
             <div className="sidebar-user-name">Admin User</div>
-            <div className="sidebar-user-role">Administrador</div>
+            <div className="sidebar-user-role">Administrator</div>
           </div>
         </div>
       </div>

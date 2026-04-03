@@ -69,28 +69,28 @@ export default function Contacts() {
   };
 
   const handleDelete = (id) => {
-    if (window.confirm('¿Eliminar este contacto?')) {
+    if (window.confirm('Delete this contact?')) {
       deleteContact(id);
     }
   };
 
   return (
     <div className="contacts-page">
-      <h1>Contactos</h1>
+      <h1>Contacts</h1>
 
       <div className="contacts-toolbar">
         <div className="contacts-search">
           <Search size={16} />
           <input
             type="text"
-            placeholder="Buscar por nombre, email o empresa..."
+            placeholder="Search by name, email or company..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
         <button className="btn btn-primary" onClick={openCreate}>
           <Plus size={16} />
-          Nuevo Contacto
+          New Contact
         </button>
       </div>
 
@@ -99,12 +99,12 @@ export default function Contacts() {
           <table className="contacts-table">
             <thead>
               <tr>
-                <th>Nombre</th>
+                <th>Name</th>
                 <th>Email</th>
-                <th>Teléfono</th>
-                <th>Empresa</th>
-                <th>Estado</th>
-                <th style={{ width: 90 }}>Acciones</th>
+                <th>Phone</th>
+                <th>Company</th>
+                <th>Status</th>
+                <th style={{ width: 90 }}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -126,15 +126,15 @@ export default function Contacts() {
                   <td>{c.company}</td>
                   <td>
                     <span className={`badge badge-${c.status === 'active' ? 'emerald' : c.status === 'lead' ? 'blue' : 'rose'}`}>
-                      {c.status === 'active' ? 'Activo' : c.status === 'lead' ? 'Lead' : 'Inactivo'}
+                      {c.status === 'active' ? 'Active' : c.status === 'lead' ? 'Lead' : 'Inactive'}
                     </span>
                   </td>
                   <td>
                     <div className="contact-actions">
-                      <button className="btn-ghost btn-icon" title="Editar" onClick={() => openEdit(c)}>
+                      <button className="btn-ghost btn-icon" title="Edit" onClick={() => openEdit(c)}>
                         <Pencil size={14} />
                       </button>
-                      <button className="btn-ghost btn-icon" title="Eliminar" onClick={() => handleDelete(c.id)}>
+                      <button className="btn-ghost btn-icon" title="Delete" onClick={() => handleDelete(c.id)}>
                         <Trash2 size={14} />
                       </button>
                     </div>
@@ -147,24 +147,24 @@ export default function Contacts() {
       ) : (
         <div className="card contacts-empty">
           <Users size={48} />
-          <p>No se encontraron contactos</p>
+          <p>No contacts found</p>
         </div>
       )}
 
       {/* Modal */}
       {modalOpen && (
         <Modal
-          title={editingContact ? 'Editar Contacto' : 'Nuevo Contacto'}
+          title={editingContact ? 'Edit Contact' : 'New Contact'}
           onClose={() => setModalOpen(false)}
         >
           <form onSubmit={handleSubmit}>
             <div className="modal-body">
               <div className="modal-field">
-                <label htmlFor="contact-name">Nombre</label>
+                <label htmlFor="contact-name">Name</label>
                 <input
                   id="contact-name"
                   type="text"
-                  placeholder="Nombre completo"
+                  placeholder="Full name"
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   autoFocus
@@ -176,13 +176,13 @@ export default function Contacts() {
                 <input
                   id="contact-email"
                   type="email"
-                  placeholder="correo@ejemplo.com"
+                  placeholder="email@example.com"
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                 />
               </div>
               <div className="modal-field">
-                <label htmlFor="contact-phone">Teléfono</label>
+                <label htmlFor="contact-phone">Phone</label>
                 <input
                   id="contact-phone"
                   type="text"
@@ -192,34 +192,34 @@ export default function Contacts() {
                 />
               </div>
               <div className="modal-field">
-                <label htmlFor="contact-company">Empresa</label>
+                <label htmlFor="contact-company">Company</label>
                 <input
                   id="contact-company"
                   type="text"
-                  placeholder="Nombre de empresa"
+                  placeholder="Company name"
                   value={form.company}
                   onChange={(e) => setForm({ ...form, company: e.target.value })}
                 />
               </div>
               <div className="modal-field">
-                <label htmlFor="contact-status">Estado</label>
+                <label htmlFor="contact-status">Status</label>
                 <select
                   id="contact-status"
                   value={form.status}
                   onChange={(e) => setForm({ ...form, status: e.target.value })}
                 >
-                  <option value="active">Activo</option>
+                  <option value="active">Active</option>
                   <option value="lead">Lead</option>
-                  <option value="inactive">Inactivo</option>
+                  <option value="inactive">Inactive</option>
                 </select>
               </div>
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" onClick={() => setModalOpen(false)}>
-                Cancelar
+                Cancel
               </button>
               <button type="submit" className="btn btn-primary">
-                {editingContact ? 'Guardar Cambios' : 'Crear Contacto'}
+                {editingContact ? 'Save Changes' : 'Create Contact'}
               </button>
             </div>
           </form>

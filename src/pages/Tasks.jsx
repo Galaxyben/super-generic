@@ -5,9 +5,9 @@ import Modal from '../components/Modal';
 import './Tasks.css';
 
 const FILTERS = [
-  { key: 'all', label: 'Todas' },
-  { key: 'pending', label: 'Pendientes' },
-  { key: 'completed', label: 'Completadas' },
+  { key: 'all', label: 'All' },
+  { key: 'pending', label: 'Pending' },
+  { key: 'completed', label: 'Completed' },
 ];
 
 export default function Tasks() {
@@ -32,7 +32,7 @@ export default function Tasks() {
 
   return (
     <div className="tasks-page">
-      <h1>Tareas</h1>
+      <h1>Tasks</h1>
 
       <div className="tasks-toolbar">
         <div className="tasks-filters">
@@ -48,7 +48,7 @@ export default function Tasks() {
         </div>
         <button className="btn btn-primary" onClick={() => setModalOpen(true)}>
           <Plus size={16} />
-          Nueva Tarea
+          New Task
         </button>
       </div>
 
@@ -98,21 +98,21 @@ export default function Tasks() {
       ) : (
         <div className="card tasks-empty">
           <ListTodo size={48} />
-          <p>{filter === 'completed' ? 'Sin tareas completadas' : 'No hay tareas pendientes'}</p>
+          <p>{filter === 'completed' ? 'No completed tasks' : 'No pending tasks'}</p>
         </div>
       )}
 
       {/* Create Task Modal */}
       {modalOpen && (
-        <Modal title="Nueva Tarea" onClose={() => setModalOpen(false)}>
+        <Modal title="New Task" onClose={() => setModalOpen(false)}>
           <form onSubmit={handleSubmit}>
             <div className="modal-body">
               <div className="modal-field">
-                <label htmlFor="task-title">Título</label>
+                <label htmlFor="task-title">Title</label>
                 <input
                   id="task-title"
                   type="text"
-                  placeholder="Descripción de la tarea"
+                  placeholder="Task description"
                   value={form.title}
                   onChange={(e) => setForm({ ...form, title: e.target.value })}
                   autoFocus
@@ -120,7 +120,7 @@ export default function Tasks() {
                 />
               </div>
               <div className="modal-field">
-                <label htmlFor="task-due">Fecha Límite</label>
+                <label htmlFor="task-due">Due Date</label>
                 <input
                   id="task-due"
                   type="date"
@@ -129,26 +129,26 @@ export default function Tasks() {
                 />
               </div>
               <div className="modal-field">
-                <label htmlFor="task-contact">Contacto</label>
+                <label htmlFor="task-contact">Contact</label>
                 <select
                   id="task-contact"
                   value={form.contactId}
                   onChange={(e) => setForm({ ...form, contactId: e.target.value })}
                 >
-                  <option value="">Sin asignar</option>
+                  <option value="">Unassigned</option>
                   {contacts.map((c) => (
                     <option key={c.id} value={c.id}>{c.name}</option>
                   ))}
                 </select>
               </div>
               <div className="modal-field">
-                <label htmlFor="task-deal">Negocio</label>
+                <label htmlFor="task-deal">Deal</label>
                 <select
                   id="task-deal"
                   value={form.dealId}
                   onChange={(e) => setForm({ ...form, dealId: e.target.value })}
                 >
-                  <option value="">Sin asignar</option>
+                  <option value="">Unassigned</option>
                   {deals.map((d) => (
                     <option key={d.id} value={d.id}>{d.title}</option>
                   ))}
@@ -157,9 +157,9 @@ export default function Tasks() {
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" onClick={() => setModalOpen(false)}>
-                Cancelar
+                Cancel
               </button>
-              <button type="submit" className="btn btn-primary">Crear Tarea</button>
+              <button type="submit" className="btn btn-primary">Create Task</button>
             </div>
           </form>
         </Modal>

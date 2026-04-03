@@ -36,13 +36,13 @@ export default function Dashboard() {
   return (
     <div className="dashboard">
       <h1 className="dashboard-title">Dashboard</h1>
-      <p className="dashboard-subtitle">Resumen general de tu CRM</p>
+      <p className="dashboard-subtitle">General overview of your CRM</p>
 
       <div className="dashboard-stats">
-        <StatCard icon={Users} label="Contactos" value={contacts.length} color="blue" change="Total registrados" />
-        <StatCard icon={Handshake} label="Negocios Activos" value={activeDeals.length} color="purple" change="En pipeline" />
-        <StatCard icon={DollarSign} label="Valor Pipeline" value={formatCurrency(pipelineValue)} color="emerald" change="Deals abiertos" />
-        <StatCard icon={ListTodo} label="Tareas Pendientes" value={pendingTasks.length} color="amber" change="Por completar" />
+        <StatCard icon={Users} label="Contacts" value={contacts.length} color="blue" change="Total registered" />
+        <StatCard icon={Handshake} label="Active Deals" value={activeDeals.length} color="purple" change="In pipeline" />
+        <StatCard icon={DollarSign} label="Pipeline Value" value={formatCurrency(pipelineValue)} color="emerald" change="Open deals" />
+        <StatCard icon={ListTodo} label="Pending Tasks" value={pendingTasks.length} color="amber" change="To complete" />
       </div>
 
       <div className="dashboard-grid">
@@ -50,7 +50,7 @@ export default function Dashboard() {
         <div className="card" style={{ padding: 'var(--space-lg)' }}>
           <div className="dashboard-section-title">
             <Clock size={16} />
-            Contactos Recientes
+            Recent Contacts
           </div>
           <div className="recent-list">
             {recentContacts.map((c) => (
@@ -65,7 +65,7 @@ export default function Dashboard() {
               </div>
             ))}
             {recentContacts.length === 0 && (
-              <p className="text-sm text-muted" style={{ padding: '1rem' }}>Sin contactos aún</p>
+              <p className="text-sm text-muted" style={{ padding: '1rem' }}>No contacts yet</p>
             )}
           </div>
         </div>
@@ -74,7 +74,7 @@ export default function Dashboard() {
         <div className="card bar-chart">
           <div className="dashboard-section-title">
             <TrendingUp size={16} />
-            Pipeline por Etapa
+            Pipeline by Stage
           </div>
           <div className="bar-chart-bars">
             {stageCounts.map((s) => (
@@ -94,7 +94,7 @@ export default function Dashboard() {
         <div className="card" style={{ padding: 'var(--space-lg)' }}>
           <div className="dashboard-section-title">
             <Briefcase size={16} />
-            Negocios Recientes
+            Recent Deals
           </div>
           <div className="recent-list">
             {recentDeals.map((d) => {
@@ -107,7 +107,7 @@ export default function Dashboard() {
                   <div className="recent-item-info">
                     <div className="recent-item-name">{d.title}</div>
                     <div className="recent-item-meta">
-                      {contact?.name || 'Sin contacto'} · {formatCurrency(d.value)}
+                      {contact?.name || 'No contact'} · {formatCurrency(d.value)}
                     </div>
                   </div>
                   <span className={`badge badge-${STAGES[d.stage]?.color}`}>

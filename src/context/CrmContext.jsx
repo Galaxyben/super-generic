@@ -101,35 +101,35 @@ export function CrmProvider({ children }) {
     addContact: (data) => {
       const contact = { ...data, id: generateId(), createdAt: new Date().toISOString() };
       dispatch({ type: 'ADD_CONTACT', payload: contact });
-      addToast('Contacto creado exitosamente');
+      addToast('Contact created successfully');
       return contact;
     },
     updateContact: (data) => {
       dispatch({ type: 'UPDATE_CONTACT', payload: data });
-      addToast('Contacto actualizado');
+      addToast('Contact updated');
     },
     deleteContact: (id) => {
       dispatch({ type: 'DELETE_CONTACT', payload: id });
-      addToast('Contacto eliminado', 'info');
+      addToast('Contact deleted', 'info');
     },
     addDeal: (data) => {
       const deal = { ...data, id: generateId(), createdAt: new Date().toISOString() };
       dispatch({ type: 'ADD_DEAL', payload: deal });
-      addToast('Negocio creado exitosamente');
+      addToast('Deal created successfully');
       return deal;
     },
     updateDeal: (data) => {
       dispatch({ type: 'UPDATE_DEAL', payload: data });
-      addToast('Negocio actualizado');
+      addToast('Deal updated');
     },
     deleteDeal: (id) => {
       dispatch({ type: 'DELETE_DEAL', payload: id });
-      addToast('Negocio eliminado', 'info');
+      addToast('Deal deleted', 'info');
     },
     addTask: (data) => {
       const task = { ...data, id: generateId(), completed: false, createdAt: new Date().toISOString() };
       dispatch({ type: 'ADD_TASK', payload: task });
-      addToast('Tarea creada');
+      addToast('Task created');
       return task;
     },
     updateTask: (data) => {
@@ -137,7 +137,7 @@ export function CrmProvider({ children }) {
     },
     deleteTask: (id) => {
       dispatch({ type: 'DELETE_TASK', payload: id });
-      addToast('Tarea eliminada', 'info');
+      addToast('Task deleted', 'info');
     },
     toggleTask: (id) => {
       dispatch({ type: 'TOGGLE_TASK', payload: id });
