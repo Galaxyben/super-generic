@@ -18,7 +18,8 @@ export default function Sidebar() {
             <Zap size={18} />
           </div>
           <div className="sidebar-logo-text">
-            <span>Super Generic</span>
+            <span>Super CRM</span>
+            <span>Generic Edition</span>
           </div>
         </div>
       </div>
